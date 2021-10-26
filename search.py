@@ -25,7 +25,8 @@ args = vars(parser.parse_args())
 image_path = args["image"]
 
 # Load the classifier, class names, scaler, number of clusters and vocabulary 
-im_features, image_paths, idf, numWords, voc = joblib.load("bag-of-words.pkl")
+# im_features, image_paths, idf, numWords, voc = joblib.load("bag-of-words.pkl")
+words_index, image_paths, idf, numWords, voc = joblib.load("bag-of-words-inverted.pkl")
     
 # Create feature extraction and keypoint detector objects
 # fea_det = cv2.FeatureDetector_create("SIFT")
@@ -60,20 +61,24 @@ words, distance = vq(descriptors,voc)
 for w in words:
     test_features[0][w] += 1
 
-# Perform Tf-Idf vectorization and L2 normalization
-test_features = test_features*idf
-test_features = preprocessing.normalize(test_features, norm='l2')
+# # Perform Tf-Idf vectorization and L2 normalization
+# test_features = test_features*idf
+# test_features = preprocessing.normalize(test_features, norm='l2')
 
-score = np.dot(test_features, im_features.T)
+# score = np.dot(test_features, im_features.T)
+score = np.zeros(len(image_paths))
+for w in range(numWords):
+	for i in words_index[w]:
+		score[i] += test_features[0][w]*idf[w]
 rank_ID = np.argsort(-score)
-
 # Visualize the results
 figure()
 gray()
 subplot(5,4,1)
 imshow(im[:,:,::-1])
 axis('off')
-for i, ID in enumerate(rank_ID[0][0:16]):
+# for i, ID in enumerate(rank_ID[0][0:16]):
+for i, ID in enumerate(rank_ID[0:16]):
 	img = Image.open(image_paths[ID])
 	gray()
 	subplot(5,4,i+5)

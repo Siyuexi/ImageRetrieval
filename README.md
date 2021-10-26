@@ -9,5 +9,5 @@ python findFeatures.py -t dataset/training/
 
 * Query a single image
 ```
-python search.py -i dataset/test/all_souls_000000.jpg
+python search.py -i dataset/testing/all_souls_000000.jpg
 ```
