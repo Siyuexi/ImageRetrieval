@@ -1,0 +1,1 @@
+['dataset/training\\worcester_000196.jpg', 'dataset/training\\all_souls_000017.jpg', 'dataset/training\\all_souls_000006.jpg', 'dataset/training\\all_souls_000000.jpg', 'dataset/training\\all_souls_000012.jpg']
